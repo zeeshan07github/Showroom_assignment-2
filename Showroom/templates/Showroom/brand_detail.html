@@ -1,0 +1,65 @@
+{% extends 'Showroom/base.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="container mt-5" style="text-align: center;">
+    {% if brandss %}
+    <h3><b>{{ brandss.name }}'s</b> different Models</h3>
+    <br>
+    <br>
+    <style>
+        /* Add some margin between the cards */
+        .card-gap {
+            margin-bottom: 45 px;
+        }
+    </style>
+
+    <div class="row" >
+
+
+        {% for modelss in models %}
+        <h3><b>{{ modelss.name }}</b></h3>
+        <div class="col-md-8 offset-md-2 card-gap ">
+            <div class="card">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        {% if modelss.images %}
+                        <img src="{{ modelss.images.url }}" class="card-img" alt="Profile picture" height="330" >
+                        {% endif %}
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Model name: {{ modelss.name }}</h5>
+                            <p class="card-text"><small class="text-muted">{{ brandss.showrooms.Owner }}</small></p>
+                            
+                            <p class="card-text">
+                                <strong>Brand:</strong> {{ modelss.Brand.name }}<br>
+                                {% if modelss.Engine %}
+                                <strong>Engine:</strong> {{ modelss.Engine.name }}<br>
+                                <strong>Engine Number:</strong> {{ modelss.Engine.Engine_no }}<br>
+
+                                {% endif %}
+                                            
+                                <ul>
+                                    <strong>Features:</strong>
+                                    {% for feature in modelss.Features.all %}
+                                        <li>{{ feature.name }}</li>
+                                    {% endfor %}
+                                </ul>
+                                <strong>Available at:  </strong><a href="./Showrooms.html">'{{ brandss.showrooms.name }}'</a><br>
+                            </p>
+                            <a href="{% url 'Showroom:brand_list' %}" class="btn btn-primary">Back</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>Brand not found.</p>
+    {% endif %}
+</div>
+
+{% endblock %}
